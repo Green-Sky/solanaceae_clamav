@@ -21,6 +21,7 @@ if (PKG_CONFIG_FOUND)
 endif()
 
 if (NOT TARGET libclamav)
+	set(FETCHCONTENT_TRY_FIND_PACKAGE_MODE ALWAYS)
 	include(FetchContent)
 	set(ENABLE_LIBCLAMAV_ONLY ON)
 	set(ENABLE_APP OFF)
@@ -30,7 +31,7 @@ if (NOT TARGET libclamav)
 		GIT_TAG clamav-1.2.0
 
 		# find_package is tried first
-		FIND_PACKAGE_ARGS NAMES clamav
+		FIND_PACKAGE_ARGS
 	)
 
 	FetchContent_MakeAvailable(clamav)
