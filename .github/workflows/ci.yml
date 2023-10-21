@@ -59,7 +59,7 @@ jobs:
         submodules: recursive
 
     - name: Install Dependencies
-      run: vcpkg install clamav:x64-windows-static
+      run: vcpkg install --allow-unsupported clamav:x64-windows-static
 
     # setup vs env
     - uses: ilammy/msvc-dev-cmd@v1
