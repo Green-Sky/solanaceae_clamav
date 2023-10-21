@@ -30,7 +30,7 @@ if (NOT TARGET libclamav)
 		GIT_TAG clamav-1.2.0
 
 		# find_package is tried first
-		FIND_PACKAGE_ARGS NAMES libclamav
+		FIND_PACKAGE_ARGS NAMES clamav
 	)
 
 	FetchContent_MakeAvailable(clamav)
