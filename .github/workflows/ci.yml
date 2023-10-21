@@ -49,7 +49,7 @@ jobs:
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} -j 4
 
   windows:
-    timeout-minutes: 10
+    timeout-minutes: 30
 
     runs-on: windows-latest
 
