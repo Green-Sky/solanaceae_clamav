@@ -10,29 +10,38 @@ add_subdirectory(./solanaceae_contact)
 add_subdirectory(./solanaceae_message3)
 
 # TODO: move to clamav.cmake
-find_package(PkgConfig QUIET)
-if (PKG_CONFIG_FOUND)
-	pkg_check_modules(PKGC_CLAMAV QUIET IMPORTED_TARGET libclamav)
+if (NOT TARGET libclamav)
+	find_package(PkgConfig QUIET)
+	if (PKG_CONFIG_FOUND)
+		pkg_check_modules(PKGC_CLAMAV QUIET IMPORTED_TARGET libclamav)
 
-	if (PKGC_CLAMAV_FOUND)
-		add_library(libclamav ALIAS PkgConfig::PKGC_CLAMAV)
-		message("II libclamav found using pkg-config")
+		if (PKGC_CLAMAV_FOUND)
+			add_library(libclamav ALIAS PkgConfig::PKGC_CLAMAV)
+			message("II libclamav found using pkg-config")
+		endif()
 	endif()
 endif()
 
 if (NOT TARGET libclamav)
-	include(FetchContent)
-	set(ENABLE_LIBCLAMAV_ONLY ON)
-	set(ENABLE_APP OFF)
-	set(ENABLE_TESTS OFF)
-	FetchContent_Declare(clamav
-		GIT_REPOSITORY https://github.com/Cisco-Talos/clamav.git
-		GIT_TAG clamav-1.2.0
-
-		# find_package is tried first
-		FIND_PACKAGE_ARGS NAMES libclamav
+	find_package(libclamav
+		NAMES libclamav clamav libClamAV ClamAV
 	)
+endif()
 
-	FetchContent_MakeAvailable(clamav)
+if (NOT TARGET libclamav)
+#set(FETCHCONTENT_TRY_FIND_PACKAGE_MODE ALWAYS)
+#include(FetchContent)
+#set(ENABLE_LIBCLAMAV_ONLY ON)
+#set(ENABLE_APP OFF)
+#set(ENABLE_TESTS OFF)
+#FetchContent_Declare(clamav
+	#GIT_REPOSITORY https://github.com/Cisco-Talos/clamav.git
+	#GIT_TAG clamav-1.2.0
+
+	## find_package is tried first
+	#FIND_PACKAGE_ARGS
+#)
+
+#FetchContent_MakeAvailable(clamav)
 endif()
 

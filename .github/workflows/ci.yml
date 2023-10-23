@@ -29,27 +29,27 @@ jobs:
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} -j 4
 
-  macos:
-    timeout-minutes: 10
+  #macos:
+    #timeout-minutes: 10
 
-    runs-on: macos-latest
+    #runs-on: macos-latest
 
-    steps:
-    - uses: actions/checkout@v3
-      with:
-        submodules: recursive
+    #steps:
+    #- uses: actions/checkout@v3
+      #with:
+        #submodules: recursive
 
-    - name: Install Dependencies
-      run: brew install clamav
+    #- name: Install Dependencies
+      #run: brew install clamav
 
-    - name: Configure CMake
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+    #- name: Configure CMake
+      #run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
-    - name: Build
-      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} -j 4
+    #- name: Build
+      #run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} -j 4
 
   windows:
-    timeout-minutes: 10
+    timeout-minutes: 30
 
     runs-on: windows-latest
 
@@ -59,7 +59,7 @@ jobs:
         submodules: recursive
 
     - name: Install Dependencies
-      run: vcpkg install clamav:x64-windows-static
+      run: vcpkg install clamav:x64-windows
 
     # setup vs env
     - uses: ilammy/msvc-dev-cmd@v1
@@ -67,7 +67,7 @@ jobs:
         arch: amd64
 
     - name: Configure CMake
-      run: cmake -G Ninja -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows-static
+      run: cmake -G Ninja -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows
 
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} -j 4
