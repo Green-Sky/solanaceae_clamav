@@ -21,19 +21,36 @@ if (PKG_CONFIG_FOUND)
 endif()
 
 if (NOT TARGET libclamav)
-	set(FETCHCONTENT_TRY_FIND_PACKAGE_MODE ALWAYS)
-	include(FetchContent)
-	set(ENABLE_LIBCLAMAV_ONLY ON)
-	set(ENABLE_APP OFF)
-	set(ENABLE_TESTS OFF)
-	FetchContent_Declare(clamav
-		GIT_REPOSITORY https://github.com/Cisco-Talos/clamav.git
-		GIT_TAG clamav-1.2.0
+	find_package(clamav)
+	if (TARGET clamav)
+		message("------ find_package(clamav) found")
+	else()
+		find_package(libclamav)
+		if (TARGET libclamav)
+			message("------ find_package(libclamav) found")
+		else()
+			find_package(clamav CONFIG)
+			if (TARGET clamav)
+				message("------ find_package(clamav CONFIG) found")
+			else()
+				find_package(libclamav CONFIG REQUIRED)
+			endif()
+		endif()
+	endif()
 
-		# find_package is tried first
-		FIND_PACKAGE_ARGS
-	)
+	#set(FETCHCONTENT_TRY_FIND_PACKAGE_MODE ALWAYS)
+	#include(FetchContent)
+	#set(ENABLE_LIBCLAMAV_ONLY ON)
+	#set(ENABLE_APP OFF)
+	#set(ENABLE_TESTS OFF)
+	#FetchContent_Declare(clamav
+		#GIT_REPOSITORY https://github.com/Cisco-Talos/clamav.git
+		#GIT_TAG clamav-1.2.0
 
-	FetchContent_MakeAvailable(clamav)
+		## find_package is tried first
+		#FIND_PACKAGE_ARGS
+	#)
+
+	#FetchContent_MakeAvailable(clamav)
 endif()
 
