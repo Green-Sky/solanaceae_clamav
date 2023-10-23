@@ -12,15 +12,15 @@ add_subdirectory(./solanaceae_message3)
 # TODO: move to clamav.cmake
 find_package(PkgConfig QUIET)
 if (PKG_CONFIG_FOUND)
-	pkg_check_modules(PKGC_CLAMAV QUIET IMPORTED_TARGET libclamav)
+	pkg_check_modules(PKGC_CLAMAV QUIET IMPORTED_TARGET GLOBAL libclamav)
 
 	if (PKGC_CLAMAV_FOUND)
-		add_library(libclamav ALIAS PkgConfig::PKGC_CLAMAV)
-		message("II libclamav found using pkg-config")
+		add_library(EXT_SOL::libclamav ALIAS PkgConfig::PKGC_CLAMAV)
+		message("II clamav found using pkg-config")
 	endif()
 endif()
 
-if (NOT TARGET libclamav)
+if (NOT TARGET EXT_SOL::libclamav)
 	include(FetchContent)
 	set(ENABLE_LIBCLAMAV_ONLY ON)
 	set(ENABLE_APP OFF)
@@ -30,9 +30,11 @@ if (NOT TARGET libclamav)
 		GIT_TAG clamav-1.2.0
 
 		# find_package is tried first
-		FIND_PACKAGE_ARGS NAMES libclamav
+		FIND_PACKAGE_ARGS NAMES clamav ClamAV libclamav libClamAV
 	)
 
 	FetchContent_MakeAvailable(clamav)
+
+	add_library(EXT_SOL::libclamav ALIAS clamav)
 endif()
 
