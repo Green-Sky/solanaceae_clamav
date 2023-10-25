@@ -1,12 +1,6 @@
-[submodule "external/solanaceae_message3"]
-	path = external/solanaceae_message3
-	url = https://github.com/Green-Sky/solanaceae_message3.git
 [submodule "external/entt/entt"]
 	path = external/entt/entt
 	url = https://github.com/skypjack/entt.git
 [submodule "external/solanaceae_util"]
 	path = external/solanaceae_util
 	url = https://github.com/Green-Sky/solanaceae_util.git
-[submodule "external/solanaceae_contact"]
-	path = external/solanaceae_contact
-	url = https://github.com/Green-Sky/solanaceae_contact.git

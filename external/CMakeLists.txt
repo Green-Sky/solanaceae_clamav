@@ -1,14 +1,26 @@
 cmake_minimum_required(VERSION 3.24 FATAL_ERROR)
 
+include(FetchContent)
+
 add_subdirectory(./solanaceae_util)
-#add_subdirectory(./solanaceae_plugin)
 
 add_subdirectory(./entt)
 
-add_subdirectory(./solanaceae_contact)
-add_subdirectory(./solanaceae_message3)
+if (NOT TARGET solanaceae_contact)
+	FetchContent_Declare(solanaceae_contact
+		GIT_REPOSITORY https://github.com/Green-Sky/solanaceae_contact.git
+		GIT_TAG master
+	)
+	FetchContent_MakeAvailable(solanaceae_contact)
+endif()
 
-include(FetchContent)
+if (NOT TARGET solanaceae_message3)
+	FetchContent_Declare(solanaceae_message3
+		GIT_REPOSITORY https://github.com/Green-Sky/solanaceae_message3.git
+		GIT_TAG master
+	)
+	FetchContent_MakeAvailable(solanaceae_message3)
+endif()
 
 # TODO: move to clamav.cmake
 find_package(PkgConfig QUIET)
