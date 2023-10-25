@@ -1,5 +1,7 @@
 #include "./clamav_module.hpp"
 
+#include <solanaceae/util/config_model.hpp>
+
 #include <clamav.h>
 
 #include <iostream>
@@ -9,7 +11,7 @@ extern "C" {
 	void sol_cl_msg_cb(enum cl_msg severity, const char *fullmsg, const char *msg, void *context);
 };
 
-ClamAVModule::ClamAVModule(void) {
+ClamAVModule::ClamAVModule(ConfigModelI& conf) : _conf(conf) {
 	if (cl_init(CL_INIT_DEFAULT) != CL_SUCCESS) {
 		throw std::domain_error("clamav cl_init() failed");
 	}
@@ -35,8 +37,12 @@ bool ClamAVModule::startEngine(void) {
 		return false;
 	}
 
+
 	std::string db_dir;
 	// TODO: load from config
+	if (_conf.has_string("ClamAVModule", "database_dir")) {
+		db_dir = _conf.get_string("ClamAVModule", "database_dir").value();
+	}
 
 	unsigned int signo = 0;
 
@@ -64,6 +70,9 @@ bool ClamAVModule::startEngine(void) {
 			return false;
 		}
 	}
+
+	// TODO: dont reset if not changed
+	_conf.set("ClamAVModule", "database_dir", db_dir);
 
 	std::cout << "signatures loaded: " << signo << "\n";
 

@@ -10,7 +10,7 @@ target_include_directories(solanaceae_clamav PUBLIC .)
 target_compile_features(solanaceae_clamav PUBLIC cxx_std_17)
 target_link_libraries(solanaceae_clamav PUBLIC
 	EXT_SOL::libclamav
-	#solanaceae_util
+	solanaceae_util
 )
 
 add_executable(solanaceae_clamav_test
