@@ -18,7 +18,7 @@ class ClamAVModule : public ClamAVModuleInterface {
 		ClamAVModule(ConfigModelI& conf);
 		~ClamAVModule(void);
 
-		ScanResult scanFilePath(std::string_view path);
+		ScanResult scanFilePath(std::string_view path) override;
 
 };
 
