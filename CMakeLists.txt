@@ -5,12 +5,22 @@ project(solanaceae_clamav)
 
 if (CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
 	set(SOLANACEAE_CLAMAV_STANDALONE ON)
+	# why the f do i need this >:(
+	set(NOT_SOLANACEAE_CLAMAV_STANDALONE OFF)
 else()
 	set(SOLANACEAE_CLAMAV_STANDALONE OFF)
+	set(NOT_SOLANACEAE_CLAMAV_STANDALONE ON)
 endif()
 message("II SOLANACEAE_CLAMAV_STANDALONE " ${SOLANACEAE_CLAMAV_STANDALONE})
 
-option(SOLANACEAE_CLAMAV_BUILD_PLUGINS "Build the clamav plugins" ${SOLANACEAE_CLAMAV_STANDALONE})
+option(SOLANACEAE_CLAMAV_INTERFACE_ONLY
+	"Only provide the interfaces. (effectively disabled external depencencies)"
+	${NOT_SOLANACEAE_CLAMAV_STANDALONE}
+)
+option(SOLANACEAE_CLAMAV_BUILD_PLUGINS
+	"Build the clamav plugins"
+	${SOLANACEAE_CLAMAV_STANDALONE}
+)
 
 if (SOLANACEAE_CLAMAV_STANDALONE)
 	set(CMAKE_POSITION_INDEPENDENT_CODE ON)
@@ -30,7 +40,9 @@ if (SOLANACEAE_CLAMAV_STANDALONE)
 endif()
 
 # external libs
-add_subdirectory(./external) # before increasing warn levels, sad :(
+if (NOT SOLANACEAE_CLAMAV_INTERFACE_ONLY)
+	add_subdirectory(./external) # before increasing warn levels, sad :(
+endif()
 
 if (SOLANACEAE_CLAMAV_STANDALONE)
 
@@ -65,7 +77,7 @@ endif()
 
 add_subdirectory(./src)
 
-if (SOLANACEAE_CLAMAV_BUILD_PLUGINS)
+if (NOT SOLANACEAE_CLAMAV_INTERFACE_ONLY AND SOLANACEAE_CLAMAV_BUILD_PLUGINS)
 	add_subdirectory(./plugins)
 endif()
 
