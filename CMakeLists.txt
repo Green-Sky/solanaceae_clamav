@@ -8,6 +8,9 @@ if (CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
 else()
 	set(SOLANACEAE_CLAMAV_STANDALONE OFF)
 endif()
+message("II SOLANACEAE_CLAMAV_STANDALONE " ${SOLANACEAE_CLAMAV_STANDALONE})
+
+option(SOLANACEAE_CLAMAV_BUILD_PLUGINS "Build the clamav plugins" ${SOLANACEAE_CLAMAV_STANDALONE})
 
 if (SOLANACEAE_CLAMAV_STANDALONE)
 	set(CMAKE_POSITION_INDEPENDENT_CODE ON)
@@ -61,5 +64,8 @@ endif()
 # cmake setup end
 
 add_subdirectory(./src)
-#add_subdirectory(./plugins)
+
+if (SOLANACEAE_CLAMAV_BUILD_PLUGINS)
+	add_subdirectory(./plugins)
+endif()
 
